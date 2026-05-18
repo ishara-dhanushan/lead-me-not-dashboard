@@ -21,16 +21,17 @@ export default function SignupPage() {
       <div className="relative z-10 flex min-h-[calc(100vh-3rem)] items-center justify-center">
         <section className="w-full max-w-md rounded-[30px] border border-white/50 bg-white/90 p-6 shadow-[0_24px_90px_rgba(15,23,42,0.28)] backdrop-blur-xl sm:p-8">
           <div className="mb-7 text-center">
-            <Link
-              href="/"
-              className="mx-auto mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-2xl font-black text-blue-600 ring-1 ring-blue-100"
-            >
-              L
-            </Link>
+            <Image
+              src={"/icons/lead-me-not-full-logo.svg"}
+              alt="LeadMeNot"
+              width={128}
+              height={128}
+              className="text-blue-600 mx-auto"
+            />
 
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-600">
+            {/* <p className="text-xs font-semibold uppercase tracking-[0.28em] text-blue-600">
               LeadMeNot Admin
-            </p>
+            </p> */}
 
             <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
               Register admin
