@@ -18,11 +18,11 @@ export default function DashboardShell() {
     activities[0];
 
   return (
-    <main className="min-h-screen bg-[#f4f1ff] text-slate-950">
+    <main className="min-h-screen bg-lmn-bg text-lmn-text">
       <div className="grid min-h-screen lg:grid-cols-[260px_minmax(0,1fr)_360px]">
         <DashboardSidebar />
 
-        <section className="min-w-0 border-x border-violet-100/80 bg-white">
+        <section className="min-w-0 border-x border-lmn-border bg-lmn-bg-soft">
           <DashboardHeader />
 
           <div className="px-5 pb-8 pt-5 sm:px-8 lg:px-10">
