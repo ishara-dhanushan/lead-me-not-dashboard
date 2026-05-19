@@ -1,3 +1,4 @@
+// src/app/dashboard/components/MetricCards.tsx
 import { metrics } from "./dashboard-data";
 
 const toneClasses = {
@@ -7,9 +8,18 @@ const toneClasses = {
   blue: "bg-lmn-bg text-lmn-primary-soft ring-lmn-border",
 };
 
-export default function MetricCards() {
+type MetricCardsProps = { containerWidth: number };
+
+export default function MetricCards({ containerWidth }: MetricCardsProps) {
+  const cols =
+    containerWidth === 0
+      ? "grid-cols-2 xl:grid-cols-4"
+      : containerWidth >= 700
+      ? "grid-cols-4"
+      : "grid-cols-2";
+
   return (
-    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <div className={`grid gap-4 ${cols}`}>
       {metrics.map((metric) => (
         <article
           key={metric.label}
@@ -17,7 +27,7 @@ export default function MetricCards() {
         >
           <p className="text-sm text-lmn-muted">{metric.label}</p>
 
-          <div className="mt-3 flex items-end justify-between">
+          <div className="mt-3 flex items-end justify-between gap-2">
             <p className="text-3xl font-bold text-lmn-text">{metric.value}</p>
 
             <span
