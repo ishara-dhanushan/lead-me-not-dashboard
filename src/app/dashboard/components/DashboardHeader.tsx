@@ -1,6 +1,19 @@
+"use client";
+
 import { CalendarDays, Search } from "lucide-react";
 
+function formatDate(date: Date): string {
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
 export default function DashboardHeader() {
+  const today = new Date(Date.now());
+  const formattedDate = formatDate(today);
+
   return (
     <header className="sticky top-0 z-20 border-b border-lmn-border bg-lmn-bg-soft/90 px-5 py-5 backdrop-blur-xl sm:px-8 lg:px-10">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
@@ -20,7 +33,7 @@ export default function DashboardHeader() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="flex h-11 min-w-[260px] items-center gap-3 rounded-2xl border border-lmn-border bg-white px-4">
+          <div className="flex h-11 sm:flex-1 min-w-[260px] items-center gap-3 rounded-2xl border border-lmn-border bg-white px-4">
             <Search className="h-4 w-4 text-lmn-muted-soft" />
             <input
               type="text"
@@ -29,9 +42,9 @@ export default function DashboardHeader() {
             />
           </div>
 
-          <div className="flex h-11 items-center gap-2 rounded-2xl border border-lmn-border bg-white px-4 text-sm font-semibold text-lmn-primary">
+          <div className="flex h-11 items-center gap-2 rounded-2xl border border-lmn-border bg-white px-4 text-sm font-semibold text-lmn-primary whitespace-nowrap min-w-fit">
             <CalendarDays className="h-4 w-4" />
-            16 May, 2026
+            {formattedDate}
           </div>
         </div>
       </div>

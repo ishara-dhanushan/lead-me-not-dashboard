@@ -39,7 +39,7 @@ export default function ContextPanel({ activity }: ContextPanelProps) {
   const StatusIcon = config.icon;
 
   return (
-    <aside className="hidden min-h-screen bg-lmn-bg px-5 py-6 xl:block">
+    <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 xl:flex">
       <div className="rounded-[28px] border border-lmn-border bg-white p-5 text-center shadow-sm">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-lmn-bg text-lmn-primary">
           <UserRound className="h-9 w-9" />

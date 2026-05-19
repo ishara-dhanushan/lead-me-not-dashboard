@@ -5,7 +5,7 @@ import { navItems } from "./dashboard-data";
 
 export default function DashboardSidebar() {
   return (
-    <aside className="hidden min-h-screen bg-lmn-bg px-5 py-6 lg:flex lg:flex-col">
+    <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 lg:flex">
       <Link href="/" className="flex items-center">
         <Image
           src="/icons/lead-me-not-full-logo.svg"
@@ -53,7 +53,7 @@ export default function DashboardSidebar() {
         })}
       </nav>
 
-      <div className="mt-auto rounded-3xl border border-lmn-border bg-white/70 p-4">
+      <div className="mt-auto shrink-0 rounded-3xl border border-lmn-border bg-white/70 p-4">
         <p className="text-sm font-bold text-lmn-text">Admin Reminder</p>
         <p className="mt-1 text-xs leading-5 text-lmn-muted">
           Review partner approval requests before applying account changes.
@@ -62,7 +62,7 @@ export default function DashboardSidebar() {
 
       <Link
         href="/login"
-        className="mt-4 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-lmn-muted transition hover:bg-white hover:text-lmn-primary"
+        className="mt-4 shrink-0 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-lmn-muted transition hover:bg-white hover:text-lmn-primary"
       >
         <LogOut className="h-4 w-4" />
         Logout

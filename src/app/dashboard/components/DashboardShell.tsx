@@ -18,14 +18,14 @@ export default function DashboardShell() {
     activities[0];
 
   return (
-    <main className="min-h-screen bg-lmn-bg text-lmn-text">
-      <div className="grid min-h-screen lg:grid-cols-[260px_minmax(0,1fr)_360px]">
+    <main className="h-screen overflow-hidden bg-lmn-bg text-lmn-text">
+      <div className="grid h-full lg:grid-cols-[260px_minmax(0,1fr)] xl:grid-cols-[260px_minmax(0,1fr)_360px]">
         <DashboardSidebar />
 
-        <section className="min-w-0 border-x border-lmn-border bg-lmn-bg-soft">
+        <section className="flex min-w-0 flex-col overflow-hidden border-x border-lmn-border bg-lmn-bg-soft">
           <DashboardHeader />
 
-          <div className="px-5 pb-8 pt-5 sm:px-8 lg:px-10">
+          <div className="flex-1 overflow-y-auto px-5 pb-8 pt-5 sm:px-8 lg:px-10">
             <MetricCards />
 
             <MainOverview
