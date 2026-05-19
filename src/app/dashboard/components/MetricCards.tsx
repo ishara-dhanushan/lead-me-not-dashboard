@@ -11,7 +11,12 @@ const toneClasses = {
 type MetricCardsProps = { containerWidth: number };
 
 export default function MetricCards({ containerWidth }: MetricCardsProps) {
-  const cols = containerWidth >= 700 ? "grid-cols-4" : "grid-cols-2";
+  const cols =
+    containerWidth === 0
+      ? "grid-cols-2 xl:grid-cols-4"
+      : containerWidth >= 700
+      ? "grid-cols-4"
+      : "grid-cols-2";
 
   return (
     <div className={`grid gap-4 ${cols}`}>

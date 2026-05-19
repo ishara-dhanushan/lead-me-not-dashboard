@@ -76,7 +76,7 @@ export default function ContextPanel({ activity, onClose }: ContextPanelProps) {
           activity={activity}
           config={config}
           StatusIcon={StatusIcon}
-          onClose={handleClose}
+          onClose={onClose}
         />
       </aside>
 
