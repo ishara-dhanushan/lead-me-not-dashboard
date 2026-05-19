@@ -3,23 +3,32 @@
 :root {
   --background: #eef2ff;
   --foreground: #1f3868;
+
+  --lmn-bg-soft: #f7f9ff;
+  --lmn-surface: #ffffff;
+  --lmn-border: #d7ddea;
+  --lmn-border-soft: #e5e9f4;
+  --lmn-primary: #203866;
+  --lmn-primary-soft: #536ea3;
+  --lmn-muted: #5e6b83;
+  --lmn-muted-soft: #9aa5b1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-lmn-bg: #eef2ff;
-  --color-lmn-bg-soft: #f7f9ff;
-  --color-lmn-surface: #ffffff;
-  --color-lmn-border: #d7ddea;
-  --color-lmn-border-soft: #e5e9f4;
+  --color-lmn-bg: var(--background);
+  --color-lmn-bg-soft: var(--lmn-bg-soft);
+  --color-lmn-surface: var(--lmn-surface);
+  --color-lmn-border: var(--lmn-border);
+  --color-lmn-border-soft: var(--lmn-border-soft);
 
-  --color-lmn-primary: #203866;
-  --color-lmn-primary-soft: #536ea3;
-  --color-lmn-text: #1f3868;
-  --color-lmn-muted: #5e6b83;
-  --color-lmn-muted-soft: #9aa5b1;
+  --color-lmn-primary: var(--lmn-primary);
+  --color-lmn-primary-soft: var(--lmn-primary-soft);
+  --color-lmn-text: var(--foreground);
+  --color-lmn-muted: var(--lmn-muted);
+  --color-lmn-muted-soft: var(--lmn-muted-soft);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
