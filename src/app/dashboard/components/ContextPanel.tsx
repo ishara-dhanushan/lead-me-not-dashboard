@@ -1,14 +1,20 @@
+// src/app/dashboard/components/ContextPanel.tsx
+"use client";
+
+import { useEffect, useRef, useState, type ElementType } from "react";
 import {
   Bell,
   CheckCircle2,
   Clock,
   ShieldAlert,
   UserRound,
+  X,
 } from "lucide-react";
 import type { ActivityItem } from "@/types/dashboard";
 
 type ContextPanelProps = {
   activity: ActivityItem;
+  onClose: () => void;
 };
 
 const statusConfig = {
@@ -34,12 +40,97 @@ const statusConfig = {
   },
 };
 
-export default function ContextPanel({ activity }: ContextPanelProps) {
+export default function ContextPanel({ activity, onClose }: ContextPanelProps) {
   const config = statusConfig[activity.status];
   const StatusIcon = config.icon;
 
+  // Animation for mobile/tablet drawer (<xl). Mounts off-screen, flips to visible,
+  // and on close, flips back off-screen waiting for transition before unmounting.
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const closingRef = useRef(false);
+
+  // Slide in after mount
+  useEffect(() => {
+    // rAF ensures the "off-screen" paint happens before we trigger the transition
+    const raf = requestAnimationFrame(() => setDrawerVisible(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  function handleClose() {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    // Slide out
+    setDrawerVisible(false);
+    // Wait for transition (duration-300) then unmount via parent's onClose
+    setTimeout(() => {
+      onClose();
+    }, 300);
+  }
+
   return (
-    <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 xl:flex">
+    <>
+      {/* DESKTOP (xl+): Plain grid column added/removed by DashboardShell.
+          No animation needed; grid reflows implicitly to 360px. */}
+      <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 xl:flex">
+        <PanelContent
+          activity={activity}
+          config={config}
+          StatusIcon={StatusIcon}
+          onClose={handleClose}
+        />
+      </aside>
+
+      {/* MOBILE/TABLET (<xl): Fixed overlay drawer from right (max 90vw).
+          Animated via translate-x: slides in on mount, out on close before unmounting. */}
+      <div
+        className={`fixed inset-0 z-30 bg-black/30 backdrop-blur-sm transition-opacity duration-300 xl:hidden ${
+          drawerVisible ? "opacity-100" : "opacity-0"
+        }`}
+        onClick={handleClose}
+      />
+      <aside
+        className={`fixed inset-y-0 right-0 z-40 flex w-[360px] max-w-[90vw] flex-col overflow-y-auto bg-lmn-bg px-5 py-6 shadow-2xl transition-transform duration-300 xl:hidden ${
+          drawerVisible ? "translate-x-0" : "translate-x-full"
+        }`}
+      >
+        <PanelContent
+          activity={activity}
+          config={config}
+          StatusIcon={StatusIcon}
+          onClose={handleClose}
+        />
+      </aside>
+    </>
+  );
+}
+
+type PanelContentProps = {
+  activity: ActivityItem;
+  config: (typeof statusConfig)[keyof typeof statusConfig];
+  StatusIcon: ElementType;
+  onClose: () => void;
+};
+
+function PanelContent({
+  activity,
+  config,
+  StatusIcon,
+  onClose,
+}: PanelContentProps) {
+  return (
+    <>
+      <div className="mb-4 flex items-center justify-between">
+        <p className="text-sm font-semibold text-lmn-muted">Context panel</p>
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close context panel"
+          className="rounded-xl p-1.5 text-lmn-muted transition hover:bg-white hover:text-lmn-primary"
+        >
+          <X className="h-5 w-5" />
+        </button>
+      </div>
+
       <div className="rounded-[28px] border border-lmn-border bg-white p-5 text-center shadow-sm">
         <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-lmn-bg text-lmn-primary">
           <UserRound className="h-9 w-9" />
@@ -109,6 +200,6 @@ export default function ContextPanel({ activity }: ContextPanelProps) {
           </button>
         </div>
       </div>
-    </aside>
+    </>
   );
 }

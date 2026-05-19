@@ -1,3 +1,4 @@
+// src/app/dashboard/components/dashboard-data.ts
 import {
   Bell,
   CreditCard,

@@ -1,3 +1,4 @@
+// src/types/dashboard.ts
 import type { LucideIcon } from "lucide-react";
 
 export type NavItem = {

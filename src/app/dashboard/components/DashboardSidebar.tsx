@@ -1,22 +1,75 @@
+// src/app/dashboard/components/DashboardSidebar.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { LogOut } from "lucide-react";
+import { LogOut, X } from "lucide-react";
 import { navItems } from "./dashboard-data";
 
-export default function DashboardSidebar() {
-  return (
-    <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 lg:flex">
-      <Link href="/" className="flex items-center">
-        <Image
-          src="/icons/lead-me-not-full-logo.svg"
-          alt="LeadMeNot"
-          width={132}
-          height={54}
-          priority
-          className="h-12 w-auto"
-        />
-      </Link>
+type DashboardSidebarProps = {
+  mobileNavOpen: boolean;
+  onMobileClose: () => void;
+};
 
+export default function DashboardSidebar({
+  mobileNavOpen,
+  onMobileClose,
+}: DashboardSidebarProps) {
+  return (
+    <>
+      {/* DESKTOP (lg+): Plain grid column — always visible, no toggle/close.
+          Users navigate with it always present. */}
+      <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 lg:flex">
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/icons/lead-me-not-full-logo.svg"
+            alt="LeadMeNot"
+            width={132}
+            height={54}
+            priority
+            className="h-12 w-auto"
+          />
+        </Link>
+
+        <NavContent />
+      </aside>
+
+      {/* MOBILE (<lg): Fixed overlay drawer sliding from left.
+          Has X close button, hidden via -translate-x-full when closed. */}
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 flex w-[260px] flex-col overflow-y-auto bg-lmn-bg px-5 py-6 shadow-2xl transition-transform duration-300 lg:hidden ${
+          mobileNavOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/icons/lead-me-not-full-logo.svg"
+              alt="LeadMeNot"
+              width={132}
+              height={54}
+              priority
+              className="h-12 w-auto"
+            />
+          </Link>
+
+          <button
+            type="button"
+            onClick={onMobileClose}
+            aria-label="Close navigation"
+            className="rounded-xl p-1.5 text-lmn-muted transition hover:bg-white hover:text-lmn-primary"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        <NavContent />
+      </aside>
+    </>
+  );
+}
+
+function NavContent() {
+  return (
+    <>
       <nav className="mt-10 space-y-1.5">
         {navItems.map((item, index) => {
           const Icon = item.icon;
@@ -67,6 +120,6 @@ export default function DashboardSidebar() {
         <LogOut className="h-4 w-4" />
         Logout
       </Link>
-    </aside>
+    </>
   );
 }
