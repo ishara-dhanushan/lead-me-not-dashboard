@@ -13,10 +13,10 @@ const statusStyles = {
 };
 
 const activityStyles = {
-  review: "bg-amber-100 text-amber-700",
-  approved: "bg-emerald-100 text-emerald-700",
-  blocked: "bg-rose-100 text-rose-700",
-  info: "bg-violet-100 text-violet-700",
+  review: "bg-amber-50 text-amber-700",
+  approved: "bg-emerald-50 text-emerald-700",
+  blocked: "bg-rose-50 text-rose-700",
+  info: "bg-lmn-bg text-lmn-primary",
 };
 
 export default function MainOverview({
@@ -25,20 +25,18 @@ export default function MainOverview({
 }: MainOverviewProps) {
   return (
     <div className="mt-6 grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-      <section className="rounded-[28px] border border-violet-100/70 bg-white p-5 shadow-sm">
+      <section className="rounded-[28px] border border-lmn-border-soft bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-950">
-              Recent activity
-            </h2>
-            <p className="text-sm text-slate-500">
+            <h2 className="text-lg font-bold text-lmn-text">Recent activity</h2>
+            <p className="text-sm text-lmn-muted">
               Select an event to preview its context.
             </p>
           </div>
 
           <button
             type="button"
-            className="rounded-full bg-violet-50 px-3 py-1.5 text-xs font-semibold text-violet-700"
+            className="rounded-full bg-lmn-bg px-3 py-1.5 text-xs font-semibold text-lmn-primary"
           >
             Today
           </button>
@@ -55,21 +53,21 @@ export default function MainOverview({
                 onClick={() => onSelectActivity(activity.id)}
                 className={`w-full rounded-3xl border p-4 text-left transition ${
                   isSelected
-                    ? "border-violet-200 bg-violet-50 shadow-sm"
-                    : "border-slate-100 bg-white hover:bg-slate-50"
+                    ? "border-lmn-primary-soft/40 bg-lmn-bg shadow-sm"
+                    : "border-lmn-border-soft bg-white hover:bg-lmn-bg-soft"
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-sm font-bold text-slate-950">
+                    <p className="text-sm font-bold text-lmn-text">
                       {activity.user}
                     </p>
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-lmn-muted">
                       {activity.action}
                     </p>
                   </div>
 
-                  <span className="text-xs text-slate-400">
+                  <span className="text-xs text-lmn-muted-soft">
                     {activity.time}
                   </span>
                 </div>
@@ -87,31 +85,31 @@ export default function MainOverview({
         </div>
       </section>
 
-      <section className="rounded-[28px] border border-violet-100/70 bg-white p-5 shadow-sm">
+      <section className="rounded-[28px] border border-lmn-border-soft bg-white p-5 shadow-sm">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold text-slate-950">Managed users</h2>
-            <p className="text-sm text-slate-500">
+            <h2 className="text-lg font-bold text-lmn-text">Managed users</h2>
+            <p className="text-sm text-lmn-muted">
               Mock user management table.
             </p>
           </div>
 
-          <MoreHorizontal className="h-5 w-5 text-slate-400" />
+          <MoreHorizontal className="h-5 w-5 text-lmn-muted-soft" />
         </div>
 
         <div className="mt-5 space-y-3">
           {managedUsers.map((user) => (
             <article
               key={user.email}
-              className="flex items-center justify-between rounded-3xl border border-slate-100 bg-white p-4"
+              className="flex items-center justify-between rounded-3xl border border-lmn-border-soft bg-white p-4"
             >
               <div>
-                <p className="text-sm font-bold text-slate-950">{user.name}</p>
-                <p className="mt-1 text-xs text-slate-500">{user.email}</p>
+                <p className="text-sm font-bold text-lmn-text">{user.name}</p>
+                <p className="mt-1 text-xs text-lmn-muted">{user.email}</p>
               </div>
 
               <div className="text-right">
-                <p className="text-xs font-semibold text-slate-500">
+                <p className="text-xs font-semibold text-lmn-muted">
                   {user.plan}
                 </p>
                 <span
