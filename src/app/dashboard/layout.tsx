@@ -1,7 +1,8 @@
 // src/app/dashboard/layout.tsx
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import ContextPanel from "@/app/dashboard/components/ContextPanel";
 import DashboardHeader from "@/app/dashboard/components/DashboardHeader";
 import DashboardSidebar from "@/app/dashboard/components/DashboardSidebar";
@@ -20,11 +21,18 @@ const CONTEXT_PANEL_TRANSITION_MS = 300;
 export default function DashboardRouteLayout({
   children,
 }: DashboardRouteLayoutProps) {
+  const pathname = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [contextPanel, setContextPanel] =
     useState<DashboardContextPanel | null>(null);
   const [isContextPanelOpen, setIsContextPanelOpen] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-close context panel and mobile navigation on route changes
+  useEffect(() => {
+    closeContextPanel();
+    setMobileNavOpen(false);
+  }, [pathname]);
 
   function clearCloseTimeout() {
     if (closeTimeoutRef.current) {
