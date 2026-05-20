@@ -1,15 +1,7 @@
 // src/app/dashboard/components/DashboardHeader.tsx
 "use client";
 
-import { CalendarDays, Menu, Search } from "lucide-react";
-
-function formatDate(date: Date): string {
-  return date.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
+import { Bell, Menu, Search, Settings } from "lucide-react";
 
 type DashboardHeaderProps = {
   onOpenMobileNav: () => void;
@@ -18,53 +10,51 @@ type DashboardHeaderProps = {
 export default function DashboardHeader({
   onOpenMobileNav,
 }: DashboardHeaderProps) {
-  const today = new Date(Date.now());
-  const formattedDate = formatDate(today);
-
   return (
-    <header className="sticky top-0 z-20 border-b border-lmn-border bg-lmn-bg-soft/90 px-5 py-5 backdrop-blur-xl sm:px-8 lg:px-10">
-      <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-        <div className="flex items-start gap-3">
-          {/* Hamburger — only visible on mobile (<lg), where sidebar is hidden by default */}
-          <button
-            type="button"
-            onClick={onOpenMobileNav}
-            aria-label="Open navigation"
-            className="mt-1 shrink-0 rounded-xl p-2 pr-4 text-lmn-muted transition hover:bg-lmn-bg hover:text-lmn-primary lg:hidden"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
+    <header className="sticky top-0 z-20 border-b border-lmn-border bg-white/85 px-5 py-3 backdrop-blur-xl sm:px-7 lg:px-8">
+      <div className="flex h-11 items-center gap-3">
+        <button
+          type="button"
+          onClick={onOpenMobileNav}
+          aria-label="Open navigation"
+          className="rounded-xl p-2 text-lmn-muted transition hover:bg-lmn-bg hover:text-lmn-primary lg:hidden"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
 
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-lmn-primary-soft">
-              LeadMeNot Admin
-            </p>
-
-            <h1 className="mt-2 text-3xl font-bold tracking-tight text-lmn-text">
-              Management Dashboard
-            </h1>
-
-            <p className="mt-1 text-sm text-lmn-muted">
-              Monitor users, accountability events, protection rules, and
-              subscriptions from one workspace.
-            </p>
-          </div>
+        <div className="flex h-10 w-full max-w-md items-center gap-3 rounded-full border border-lmn-border bg-lmn-bg-soft px-4">
+          <Search className="h-4 w-4 text-lmn-muted-soft" />
+          <input
+            type="text"
+            placeholder="Search users, alerts, organizations..."
+            className="w-full bg-transparent text-sm text-lmn-text outline-none placeholder:text-lmn-muted-soft"
+          />
         </div>
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-          <div className="flex h-11 sm:flex-1 min-w-[260px] items-center gap-3 rounded-2xl border border-lmn-border bg-white px-4">
-            <Search className="h-4 w-4 text-lmn-muted-soft" />
-            <input
-              type="text"
-              placeholder="Search users, alerts, reports..."
-              className="w-full bg-transparent text-sm text-lmn-text outline-none placeholder:text-lmn-muted-soft"
-            />
-          </div>
+        <div className="ml-auto flex items-center gap-2">
+          <button
+            type="button"
+            aria-label="Notifications"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-lmn-border bg-white text-lmn-muted transition hover:bg-lmn-bg hover:text-lmn-primary sm:flex"
+          >
+            <Bell className="h-4 w-4" />
+          </button>
 
-          <div className="flex h-11 items-center gap-2 rounded-2xl border border-lmn-border bg-white px-4 text-sm font-semibold text-lmn-primary whitespace-nowrap min-w-fit">
-            <CalendarDays className="h-4 w-4" />
-            {formattedDate}
-          </div>
+          <button
+            type="button"
+            aria-label="Settings"
+            className="hidden h-10 w-10 items-center justify-center rounded-full border border-lmn-border bg-white text-lmn-muted transition hover:bg-lmn-bg hover:text-lmn-primary sm:flex"
+          >
+            <Settings className="h-4 w-4" />
+          </button>
+
+          <button
+            type="button"
+            aria-label="Open profile"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-lmn-primary text-sm font-semibold text-white shadow-sm"
+          >
+            AD
+          </button>
         </div>
       </div>
     </header>
