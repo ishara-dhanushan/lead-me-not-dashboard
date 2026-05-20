@@ -1,6 +1,7 @@
 // src/app/dashboard/components/DashboardSidebar.tsx
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { LogOut, X } from "lucide-react";
 import { navItems } from "./dashboard-data";
 
@@ -72,17 +73,22 @@ export default function DashboardSidebar({
 }
 
 function NavContent() {
+  const pathname = usePathname();
+
   return (
     <>
       <nav className="mt-8 space-y-1">
-        {navItems.map((item, index) => {
+        {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = index === 0;
+          const isActive =
+            item.href === "/dashboard"
+              ? pathname === item.href
+              : pathname.startsWith(item.href);
 
           return (
-            <button
+            <Link
               key={item.label}
-              type="button"
+              href={item.href}
               className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition ${
                 isActive
                   ? "bg-lmn-bg text-lmn-primary"
@@ -99,7 +105,7 @@ function NavContent() {
                   {item.count}
                 </span>
               ) : null}
-            </button>
+            </Link>
           );
         })}
       </nav>

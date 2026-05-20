@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 
 export type NavItem = {
   label: string;
+  href: string;
   icon: LucideIcon;
   count?: number;
 };
@@ -21,11 +22,4 @@ export type ActivityItem = {
   time: string;
   status: "review" | "approved" | "blocked" | "info";
   details: string;
-};
-
-export type ManagedUser = {
-  name: string;
-  email: string;
-  plan: string;
-  status: "Active" | "Review" | "Paused";
 };

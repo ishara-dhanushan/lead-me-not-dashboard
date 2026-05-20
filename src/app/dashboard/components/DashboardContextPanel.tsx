@@ -1,4 +1,4 @@
-// src/app/dashboard/components/dashboard-context-panel.tsx
+// src/app/dashboard/components/DashboardContextPanel.tsx
 "use client";
 
 import { createContext, useContext, type ReactNode } from "react";
@@ -6,11 +6,13 @@ import { createContext, useContext, type ReactNode } from "react";
 export type DashboardContextPanel = {
   title: string;
   subtitle?: string;
+  sourceId?: string;
   content: ReactNode;
 };
 
 type DashboardContextPanelValue = {
   contextPanel: DashboardContextPanel | null;
+  isContextPanelOpen: boolean;
   openContextPanel: (panel: DashboardContextPanel) => void;
   closeContextPanel: () => void;
 };

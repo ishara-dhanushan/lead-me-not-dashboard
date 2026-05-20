@@ -1,7 +1,7 @@
 // src/app/dashboard/layout.tsx
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import ContextPanel from "@/app/dashboard/components/ContextPanel";
 import DashboardHeader from "@/app/dashboard/components/DashboardHeader";
 import DashboardSidebar from "@/app/dashboard/components/DashboardSidebar";
@@ -14,19 +14,50 @@ type DashboardRouteLayoutProps = {
   children: ReactNode;
 };
 
+const CONTEXT_PANEL_WIDTH = 380;
+const CONTEXT_PANEL_TRANSITION_MS = 300;
+
 export default function DashboardRouteLayout({
   children,
 }: DashboardRouteLayoutProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [contextPanel, setContextPanel] =
     useState<DashboardContextPanel | null>(null);
+  const [isContextPanelOpen, setIsContextPanelOpen] = useState(false);
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function clearCloseTimeout() {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+  }
+
+  function openContextPanel(panel: DashboardContextPanel) {
+    clearCloseTimeout();
+    setContextPanel(panel);
+
+    requestAnimationFrame(() => {
+      setIsContextPanelOpen(true);
+    });
+  }
+
+  function closeContextPanel() {
+    setIsContextPanelOpen(false);
+
+    closeTimeoutRef.current = setTimeout(() => {
+      setContextPanel(null);
+      closeTimeoutRef.current = null;
+    }, CONTEXT_PANEL_TRANSITION_MS);
+  }
 
   return (
     <DashboardContextPanelContext.Provider
       value={{
         contextPanel,
-        openContextPanel: setContextPanel,
-        closeContextPanel: () => setContextPanel(null),
+        isContextPanelOpen,
+        openContextPanel,
+        closeContextPanel,
       }}
     >
       <main className="h-screen overflow-hidden bg-lmn-bg text-lmn-text">
@@ -38,11 +69,14 @@ export default function DashboardRouteLayout({
         />
 
         <div
-          className={`grid h-full lg:grid-cols-[248px_minmax(0,1fr)] ${
-            contextPanel
-              ? "xl:grid-cols-[248px_minmax(0,1fr)_380px]"
-              : "xl:grid-cols-[248px_minmax(0,1fr)]"
-          }`}
+          className="grid h-full transition-[grid-template-columns] duration-300 ease-out lg:grid-cols-[248px_minmax(0,1fr)] xl:grid-cols-[248px_minmax(0,1fr)_var(--context-panel-width)]"
+          style={
+            {
+              "--context-panel-width": isContextPanelOpen
+                ? `${CONTEXT_PANEL_WIDTH}px`
+                : "0px",
+            } as React.CSSProperties
+          }
         >
           <DashboardSidebar
             mobileNavOpen={mobileNavOpen}
@@ -56,15 +90,18 @@ export default function DashboardRouteLayout({
             <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
           </section>
 
-          {contextPanel ? (
-            <ContextPanel
-              title={contextPanel.title}
-              subtitle={contextPanel.subtitle}
-              onClose={() => setContextPanel(null)}
-            >
-              {contextPanel.content}
-            </ContextPanel>
-          ) : null}
+          <div className="min-h-0 overflow-hidden">
+            {contextPanel ? (
+              <ContextPanel
+                title={contextPanel.title}
+                subtitle={contextPanel.subtitle}
+                isOpen={isContextPanelOpen}
+                onClose={closeContextPanel}
+              >
+                {contextPanel.content}
+              </ContextPanel>
+            ) : null}
+          </div>
         </div>
       </main>
     </DashboardContextPanelContext.Provider>
