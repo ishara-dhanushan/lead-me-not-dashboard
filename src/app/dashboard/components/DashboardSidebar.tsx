@@ -17,19 +17,23 @@ export default function DashboardSidebar({
     <>
       {/* DESKTOP (lg+): Plain grid column — always visible, no toggle/close.
           Users navigate with it always present. */}
-      <aside className="hidden h-full flex-col overflow-y-auto bg-lmn-bg px-5 py-6 lg:flex">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/icons/lead-me-not-full-logo.svg"
-            alt="LeadMeNot"
-            width={132}
-            height={54}
-            priority
-            className="h-12 w-auto"
-          />
-        </Link>
+      <aside className="hidden h-screen min-h-0 flex-col border-r border-lmn-border bg-lmn-bg lg:flex">
+        <div className="shrink-0 px-4 py-5">
+          <Link href="/dashboard" className="flex items-center px-2">
+            <Image
+              src="/icons/lead-me-not-full-logo.svg"
+              alt="LeadMeNot"
+              width={132}
+              height={54}
+              priority
+              className="h-10 w-auto"
+            />
+          </Link>
+        </div>
 
-        <NavContent />
+        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 pb-4">
+          <NavContent />
+        </div>
       </aside>
 
       {/* MOBILE (<lg): Fixed overlay drawer sliding from left.
@@ -70,7 +74,7 @@ export default function DashboardSidebar({
 function NavContent() {
   return (
     <>
-      <nav className="mt-10 space-y-1.5">
+      <nav className="mt-8 space-y-1">
         {navItems.map((item, index) => {
           const Icon = item.icon;
           const isActive = index === 0;
@@ -79,10 +83,10 @@ function NavContent() {
             <button
               key={item.label}
               type="button"
-              className={`flex w-full items-center justify-between rounded-2xl px-3 py-3 text-sm font-medium transition ${
+              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition ${
                 isActive
-                  ? "bg-lmn-primary text-white shadow-lg shadow-lmn-primary/20"
-                  : "text-lmn-muted hover:bg-white hover:text-lmn-primary"
+                  ? "bg-lmn-bg text-lmn-primary"
+                  : "text-lmn-muted hover:bg-lmn-bg-soft hover:text-lmn-primary"
               }`}
             >
               <span className="flex items-center gap-3">
@@ -91,13 +95,7 @@ function NavContent() {
               </span>
 
               {item.count ? (
-                <span
-                  className={`rounded-full px-2 py-0.5 text-xs ${
-                    isActive
-                      ? "bg-white/20 text-white"
-                      : "bg-white text-lmn-primary"
-                  }`}
-                >
+                <span className="rounded-full bg-white px-2 py-0.5 text-xs text-lmn-primary">
                   {item.count}
                 </span>
               ) : null}
@@ -106,16 +104,16 @@ function NavContent() {
         })}
       </nav>
 
-      <div className="mt-auto shrink-0 rounded-3xl border border-lmn-border bg-white/70 p-4">
-        <p className="text-sm font-bold text-lmn-text">Admin Reminder</p>
-        <p className="mt-1 text-xs leading-5 text-lmn-muted">
-          Review partner approval requests before applying account changes.
+      <div className="mt-auto rounded-2xl border border-lmn-border bg-lmn-bg-soft p-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-lmn-muted">
+          System status
         </p>
+        <p className="mt-2 text-sm font-semibold text-lmn-primary">Healthy</p>
       </div>
 
       <Link
         href="/login"
-        className="mt-4 shrink-0 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-lmn-muted transition hover:bg-white hover:text-lmn-primary"
+        className="mt-3 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-lmn-muted transition hover:bg-lmn-bg-soft hover:text-lmn-primary"
       >
         <LogOut className="h-4 w-4" />
         Logout

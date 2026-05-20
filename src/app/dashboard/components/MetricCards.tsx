@@ -2,10 +2,10 @@
 import { metrics } from "./dashboard-data";
 
 const toneClasses = {
-  purple: "bg-lmn-bg text-lmn-primary ring-lmn-border",
-  green: "bg-emerald-50 text-emerald-700 ring-emerald-100",
-  amber: "bg-amber-50 text-amber-700 ring-amber-100",
-  blue: "bg-lmn-bg text-lmn-primary-soft ring-lmn-border",
+  purple: "border-lmn-primary/20 bg-lmn-bg text-lmn-primary",
+  green: "border-emerald-200 bg-emerald-50 text-emerald-700",
+  amber: "border-amber-200 bg-amber-50 text-amber-700",
+  blue: "border-blue-200 bg-blue-50 text-blue-700",
 };
 
 type MetricCardsProps = { containerWidth: number };
@@ -13,25 +13,33 @@ type MetricCardsProps = { containerWidth: number };
 export default function MetricCards({ containerWidth }: MetricCardsProps) {
   const cols =
     containerWidth === 0
-      ? "grid-cols-2 xl:grid-cols-4"
-      : containerWidth >= 700
-      ? "grid-cols-4"
-      : "grid-cols-2";
+      ? "grid-cols-1 md:grid-cols-2 2xl:grid-cols-3"
+      : containerWidth >= 980
+        ? "grid-cols-3"
+        : containerWidth >= 640
+          ? "grid-cols-2"
+          : "grid-cols-1";
 
   return (
     <div className={`grid gap-4 ${cols}`}>
       {metrics.map((metric) => (
         <article
           key={metric.label}
-          className="rounded-3xl border border-lmn-border-soft bg-white p-5 shadow-sm"
+          className="rounded-2xl border border-lmn-border bg-white px-5 py-4"
         >
-          <p className="text-sm text-lmn-muted">{metric.label}</p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-[13px] font-medium text-lmn-muted">
+                {metric.label}
+              </p>
 
-          <div className="mt-3 flex items-end justify-between gap-2">
-            <p className="text-3xl font-bold text-lmn-text">{metric.value}</p>
+              <p className="mt-3 text-3xl font-semibold tracking-tight text-lmn-text">
+                {metric.value}
+              </p>
+            </div>
 
             <span
-              className={`rounded-full px-2.5 py-1 text-xs font-semibold ring-1 ${
+              className={`rounded-full border px-2.5 py-1 text-xs font-semibold ${
                 toneClasses[metric.tone]
               }`}
             >
