@@ -1,6 +1,6 @@
 // src/app/dashboard/components/MainOverview.tsx
 import { MoreHorizontal } from "lucide-react";
-import { activities, managedUsers } from "./dashboard-data";
+import { activities } from "./dashboard-data";
 
 type MainOverviewProps = {
   selectedActivityId: string | null;

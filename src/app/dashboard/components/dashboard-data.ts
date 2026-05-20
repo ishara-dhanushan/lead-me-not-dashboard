@@ -9,22 +9,21 @@ import {
   ShieldCheck,
   Users,
 } from "lucide-react";
-import type {
-  ActivityItem,
-  ManagedUser,
-  Metric,
-  NavItem,
-} from "@/types/dashboard";
+import type { ActivityItem, Metric, NavItem } from "@/types/dashboard";
 
 export const navItems: NavItem[] = [
-  { label: "Overview", icon: Home },
-  { label: "Users", icon: Users, count: 18 },
-  { label: "Protection Rules", icon: ShieldCheck },
-  { label: "Alerts", icon: Bell, count: 7 },
-  { label: "Subscriptions", icon: CreditCard },
-  { label: "Reports", icon: FileText },
-  { label: "Support", icon: LifeBuoy },
-  { label: "Settings", icon: Settings },
+  { label: "Overview", href: "/dashboard", icon: Home },
+  { label: "Users", href: "/dashboard/users", icon: Users, count: 18 },
+  { label: "Protection Rules", href: "/dashboard/rules", icon: ShieldCheck },
+  { label: "Alerts", href: "/dashboard/alerts", icon: Bell, count: 7 },
+  {
+    label: "Subscriptions",
+    href: "/dashboard/subscriptions",
+    icon: CreditCard,
+  },
+  { label: "Reports", href: "/dashboard/reports", icon: FileText },
+  { label: "Support", href: "/dashboard/support", icon: LifeBuoy },
+  { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export const metrics: Metric[] = [
@@ -82,32 +81,5 @@ export const activities: ActivityItem[] = [
     status: "info",
     details:
       "Kristin asked for help with device sync and schedule-based blocking rules.",
-  },
-];
-
-export const managedUsers: ManagedUser[] = [
-  {
-    name: "Megan Norton",
-    email: "megan@example.com",
-    plan: "Premium",
-    status: "Review",
-  },
-  {
-    name: "Floyd Miles",
-    email: "floyd@example.com",
-    plan: "Family",
-    status: "Active",
-  },
-  {
-    name: "Guy Hawkins",
-    email: "guy@example.com",
-    plan: "Premium",
-    status: "Active",
-  },
-  {
-    name: "Kristin Watson",
-    email: "kristin@example.com",
-    plan: "Basic",
-    status: "Paused",
   },
 ];
