@@ -89,9 +89,9 @@ function NavContent() {
             <Link
               key={item.label}
               href={item.href}
-              className={`flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition ${
+              className={`group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium transition ${
                 isActive
-                  ? "bg-lmn-bg text-lmn-primary"
+                  ? "bg-lmn-primary/10 text-lmn-primary shadow-sm"
                   : "text-lmn-muted hover:bg-lmn-bg-soft hover:text-lmn-primary"
               }`}
             >
