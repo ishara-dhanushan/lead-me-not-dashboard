@@ -12,12 +12,14 @@ type UsersWorkspaceProps = {
 };
 
 export default function UsersWorkspace({ users }: UsersWorkspaceProps) {
-  const { openContextPanel } = useDashboardContextPanel();
+  const { contextPanel, openContextPanel } = useDashboardContextPanel();
+  const selectedUserId = contextPanel?.sourceId ?? null;
 
   function handleOpenUser(user: ManagedUser) {
     openContextPanel({
       title: user.name,
       subtitle: user.email,
+      sourceId: user.id,
       content: <UserContextDetails user={user} />,
     });
   }
@@ -48,7 +50,11 @@ export default function UsersWorkspace({ users }: UsersWorkspaceProps) {
         <SummaryCard label="Review queue" value="18" icon={AlertTriangle} />
       </section>
 
-      <UsersTable users={users} onSelectUser={handleOpenUser} />
+      <UsersTable
+        users={users}
+        selectedUserId={selectedUserId}
+        onSelectUser={handleOpenUser}
+      />
     </div>
   );
 }

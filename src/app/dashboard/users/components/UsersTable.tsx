@@ -4,6 +4,7 @@ import type { ManagedUser } from "@/types/users";
 
 type UsersTableProps = {
   users: ManagedUser[];
+  selectedUserId: string | null;
   onSelectUser: (user: ManagedUser) => void;
 };
 
@@ -19,7 +20,11 @@ const riskStyles = {
   High: "bg-rose-50 text-rose-700",
 };
 
-export default function UsersTable({ users, onSelectUser }: UsersTableProps) {
+export default function UsersTable({
+  users,
+  selectedUserId,
+  onSelectUser,
+}: UsersTableProps) {
   return (
     <section className="overflow-hidden rounded-2xl border border-lmn-border bg-white">
       <div className="flex flex-col gap-4 border-b border-lmn-border px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
@@ -52,50 +57,58 @@ export default function UsersTable({ users, onSelectUser }: UsersTableProps) {
       </div>
 
       <div className="divide-y divide-lmn-border">
-        {users.map((user) => (
-          <button
-            key={user.id}
-            type="button"
-            onClick={() => onSelectUser(user)}
-            className="grid w-full gap-4 px-5 py-4 text-left transition hover:bg-lmn-bg-soft xl:grid-cols-[1.35fr_1fr_0.9fr_0.8fr_0.9fr_0.4fr] xl:items-center"
-          >
-            <div className="flex min-w-0 items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lmn-bg text-lmn-primary">
-                <UserRound className="h-5 w-5" />
-              </div>
+        {users.map((user) => {
+          const isSelected = selectedUserId === user.id;
 
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold text-lmn-text">
-                  {user.name}
-                </p>
-                <p className="mt-1 truncate text-xs text-lmn-muted">
-                  {user.email}
-                </p>
-              </div>
-            </div>
-
-            <TableText label="Organization" value={user.organization} />
-            <TableText label="Partner" value={user.assignedPartner} />
-
-            <span
-              className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${
-                statusStyles[user.status]
+          return (
+            <button
+              key={user.id}
+              type="button"
+              onClick={() => onSelectUser(user)}
+              className={`grid w-full gap-4 px-5 py-4 text-left transition xl:grid-cols-[1.35fr_1fr_0.9fr_0.8fr_0.9fr_0.4fr] xl:items-center ${
+                isSelected
+                  ? "bg-lmn-bg-soft shadow-[inset_4px_0_0_var(--color-lmn-primary)]"
+                  : "hover:bg-lmn-bg-soft"
               }`}
             >
-              {user.status}
-            </span>
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-lmn-bg text-lmn-primary">
+                  <UserRound className="h-5 w-5" />
+                </div>
 
-            <span
-              className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${
-                riskStyles[user.riskLevel]
-              }`}
-            >
-              {user.riskLevel} risk
-            </span>
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-lmn-text">
+                    {user.name}
+                  </p>
+                  <p className="mt-1 truncate text-xs text-lmn-muted">
+                    {user.email}
+                  </p>
+                </div>
+              </div>
 
-            <MoreHorizontal className="hidden h-5 w-5 justify-self-end text-lmn-muted-soft xl:block" />
-          </button>
-        ))}
+              <TableText label="Organization" value={user.organization} />
+              <TableText label="Partner" value={user.assignedPartner} />
+
+              <span
+                className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${
+                  statusStyles[user.status]
+                }`}
+              >
+                {user.status}
+              </span>
+
+              <span
+                className={`w-fit rounded-full px-2.5 py-1 text-xs font-semibold ${
+                  riskStyles[user.riskLevel]
+                }`}
+              >
+                {user.riskLevel} risk
+              </span>
+
+              <MoreHorizontal className="hidden h-5 w-5 justify-self-end text-lmn-muted-soft xl:block" />
+            </button>
+          );
+        })}
       </div>
     </section>
   );
