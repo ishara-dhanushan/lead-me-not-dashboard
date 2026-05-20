@@ -1,4 +1,5 @@
 // src/app/dashboard/users/components/UserContextDetails.tsx
+import { motion } from "framer-motion";
 import {
   Activity,
   Clock3,
@@ -21,10 +22,41 @@ const riskStyles = {
   High: "bg-rose-50 text-rose-700",
 };
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.06,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 12 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
+
 export default function UserContextDetails({ user }: { user: ManagedUser }) {
   return (
-    <div className="space-y-4">
-      <section className="rounded-2xl border border-lmn-border bg-white p-5 text-center">
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="space-y-4"
+    >
+      <motion.section
+        variants={itemVariants}
+        className="rounded-2xl border border-lmn-border bg-white p-5 text-center"
+      >
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-lmn-bg text-lmn-primary">
           <UserRound className="h-8 w-8" />
         </div>
@@ -50,47 +82,55 @@ export default function UserContextDetails({ user }: { user: ManagedUser }) {
             {user.riskLevel} risk
           </span>
         </div>
-      </section>
+      </motion.section>
 
-      <ContextSection title="Profile summary">
-        <DetailRow label="Subscription" value={user.plan} />
-        <DetailRow label="Organization" value={user.organization} />
-        <DetailRow label="Assigned partner" value={user.assignedPartner} />
-        <DetailRow label="Last active" value={user.lastActive} />
-      </ContextSection>
+      <motion.div variants={itemVariants}>
+        <ContextSection title="Profile summary">
+          <DetailRow label="Subscription" value={user.plan} />
+          <DetailRow label="Organization" value={user.organization} />
+          <DetailRow label="Assigned partner" value={user.assignedPartner} />
+          <DetailRow label="Last active" value={user.lastActive} />
+        </ContextSection>
+      </motion.div>
 
-      <div className="grid grid-cols-3 gap-3">
+      <motion.div variants={itemVariants} className="grid grid-cols-3 gap-3">
         <MiniMetric label="Devices" value={String(user.devicesCount)} />
         <MiniMetric label="Triggers" value={String(user.triggersThisWeek)} />
         <MiniMetric label="Streak" value={user.recoveryStreak} />
-      </div>
+      </motion.div>
 
-      <ContextSection title="Rule configuration">
-        <p className="text-sm leading-6 text-lmn-muted">{user.ruleSummary}</p>
-      </ContextSection>
+      <motion.div variants={itemVariants}>
+        <ContextSection title="Rule configuration">
+          <p className="text-sm leading-6 text-lmn-muted">{user.ruleSummary}</p>
+        </ContextSection>
+      </motion.div>
 
-      <ContextSection title="Devices">
-        <div className="space-y-3">
-          {user.devices.map((device) => (
-            <DeviceCard key={device.id} device={device} />
-          ))}
-        </div>
-      </ContextSection>
-
-      <ContextSection title="Trigger history">
-        {user.triggerHistory.length > 0 ? (
+      <motion.div variants={itemVariants}>
+        <ContextSection title="Devices">
           <div className="space-y-3">
-            {user.triggerHistory.map((event) => (
-              <TriggerEventCard key={event.id} event={event} />
+            {user.devices.map((device) => (
+              <DeviceCard key={device.id} device={device} />
             ))}
           </div>
-        ) : (
-          <p className="text-sm text-lmn-muted">
-            No trigger events recorded for this user.
-          </p>
-        )}
-      </ContextSection>
-    </div>
+        </ContextSection>
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <ContextSection title="Trigger history">
+          {user.triggerHistory.length > 0 ? (
+            <div className="space-y-3">
+              {user.triggerHistory.map((event) => (
+                <TriggerEventCard key={event.id} event={event} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-lmn-muted">
+              No trigger events recorded for this user.
+            </p>
+          )}
+        </ContextSection>
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -179,7 +219,7 @@ function TriggerEventCard({ event }: { event: UserTriggerEvent }) {
         </div>
 
         <span
-          className={`shrink-0 rounded-full px-2 py-1 text-xs font-semibold ${riskStyles[event.severity]}`}
+          className={`shrink-0 rounded-full px-2 py-1 text-xs font-semibold bg-rose-50 text-rose-700`}
         >
           {event.severity}
         </span>

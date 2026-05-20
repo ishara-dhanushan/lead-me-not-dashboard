@@ -1,4 +1,5 @@
 // src/app/dashboard/components/MainOverview.tsx
+import { motion } from "framer-motion";
 import { MoreHorizontal } from "lucide-react";
 import { activities } from "./dashboard-data";
 
@@ -15,18 +16,69 @@ const activityStyles = {
 };
 
 const platformBreakdown = [
-  { label: "iOS", value: "28,104", percentage: "45%", width: "w-[45%]" },
-  { label: "Android", value: "22,880", percentage: "37%", width: "w-[37%]" },
-  { label: "Web", value: "11,426", percentage: "18%", width: "w-[18%]" },
+  { label: "iOS", value: "28,104", percentage: "45%" },
+  { label: "Android", value: "22,880", percentage: "37%" },
+  { label: "Web", value: "11,426", percentage: "18%" },
 ];
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const sectionVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 80,
+      damping: 14,
+    },
+  },
+};
+
+const activityListVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+const activityItemVariants = {
+  hidden: { opacity: 0, x: -10 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut" as const,
+    },
+  },
+};
 
 export default function MainOverview({
   selectedActivityId,
   onSelectActivity,
 }: MainOverviewProps) {
   return (
-    <div className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]">
-      <section className="rounded-2xl border border-lmn-border bg-white p-5">
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="grid gap-4 xl:grid-cols-[0.9fr_1.1fr]"
+    >
+      <motion.section
+        variants={sectionVariants}
+        className="rounded-2xl border border-lmn-border bg-white p-5"
+      >
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-base font-semibold text-lmn-text">
@@ -53,16 +105,22 @@ export default function MainOverview({
               </div>
 
               <div className="h-2 overflow-hidden rounded-full bg-lmn-bg">
-                <div
-                  className={`h-full rounded-full bg-lmn-primary ${platform.width}`}
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: platform.percentage }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+                  className="h-full rounded-full bg-lmn-primary"
                 />
               </div>
             </div>
           ))}
         </div>
-      </section>
+      </motion.section>
 
-      <section className="rounded-2xl border border-lmn-border bg-white p-5">
+      <motion.section
+        variants={sectionVariants}
+        className="rounded-2xl border border-lmn-border bg-white p-5"
+      >
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-base font-semibold text-lmn-text">
@@ -81,14 +139,18 @@ export default function MainOverview({
           </button>
         </div>
 
-        <div className="mt-5 divide-y divide-lmn-border">
+        <motion.div
+          variants={activityListVariants}
+          className="mt-5 divide-y divide-lmn-border"
+        >
           {activities.map((activity) => {
             const isSelected = selectedActivityId === activity.id;
 
             return (
-              <button
+              <motion.button
                 key={activity.id}
                 type="button"
+                variants={activityItemVariants}
                 onClick={() => onSelectActivity(activity.id)}
                 className={`flex w-full items-center justify-between gap-5 py-4 text-left transition ${
                   isSelected ? "bg-lmn-bg px-3" : "hover:bg-lmn-bg-soft"
@@ -115,11 +177,11 @@ export default function MainOverview({
                     {activity.time}
                   </span>
                 </div>
-              </button>
+              </motion.button>
             );
           })}
-        </div>
-      </section>
-    </div>
+        </motion.div>
+      </motion.section>
+    </motion.div>
   );
 }

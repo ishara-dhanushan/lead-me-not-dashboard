@@ -1,4 +1,5 @@
 // src/app/dashboard/components/MetricCards.tsx
+import { motion } from "framer-motion";
 import { metrics } from "./dashboard-data";
 
 const toneClasses = {
@@ -9,6 +10,28 @@ const toneClasses = {
 };
 
 type MetricCardsProps = { containerWidth: number };
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 90,
+      damping: 14,
+    },
+  },
+};
 
 export default function MetricCards({ containerWidth }: MetricCardsProps) {
   const cols =
@@ -21,10 +44,16 @@ export default function MetricCards({ containerWidth }: MetricCardsProps) {
           : "grid-cols-1";
 
   return (
-    <div className={`grid gap-4 ${cols}`}>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className={`grid gap-4 ${cols}`}
+    >
       {metrics.map((metric) => (
-        <article
+        <motion.article
           key={metric.label}
+          variants={cardVariants}
           className="rounded-2xl border border-lmn-border bg-white px-5 py-4"
         >
           <div className="flex items-start justify-between gap-4">
@@ -46,8 +75,8 @@ export default function MetricCards({ containerWidth }: MetricCardsProps) {
               {metric.change}
             </span>
           </div>
-        </article>
+        </motion.article>
       ))}
-    </div>
+    </motion.div>
   );
 }

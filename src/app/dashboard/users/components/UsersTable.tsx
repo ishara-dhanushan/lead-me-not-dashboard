@@ -1,4 +1,5 @@
 // src/app/dashboard/users/components/UsersTable.tsx
+import { motion } from "framer-motion";
 import { MoreHorizontal, Search, UserRound } from "lucide-react";
 import type { ManagedUser } from "@/types/users";
 
@@ -61,13 +62,15 @@ export default function UsersTable({
           const isSelected = selectedUserId === user.id;
 
           return (
-            <button
+            <motion.button
               key={user.id}
               type="button"
+              whileHover={{ x: 4, backgroundColor: "#f7f9ff" }}
+              whileTap={{ scale: 0.995 }}
               onClick={() => onSelectUser(user)}
               className={`grid w-full gap-4 px-5 py-4 text-left transition xl:grid-cols-[1.35fr_1fr_0.9fr_0.8fr_0.9fr_0.4fr] xl:items-center ${
                 isSelected
-                  ? "bg-lmn-bg-soft shadow-[inset_4px_0_0_var(--color-lmn-primary)]"
+                  ? "bg-lmn-bg-soft"
                   : "hover:bg-lmn-bg-soft"
               }`}
             >
@@ -106,7 +109,7 @@ export default function UsersTable({
               </span>
 
               <MoreHorizontal className="hidden h-5 w-5 justify-self-end text-lmn-muted-soft xl:block" />
-            </button>
+            </motion.button>
           );
         })}
       </div>
