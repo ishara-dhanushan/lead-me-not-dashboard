@@ -1,6 +1,7 @@
 // src/app/dashboard/users/components/UsersWorkspace.tsx
 "use client";
 
+import { motion } from "framer-motion";
 import { AlertTriangle, CheckCircle2, Laptop, Users } from "lucide-react";
 import { useDashboardContextPanel } from "@/app/dashboard/components/DashboardContextPanel";
 import type { ManagedUser } from "@/types/users";
@@ -9,6 +10,51 @@ import UsersTable from "./UsersTable";
 
 type UsersWorkspaceProps = {
   users: ManagedUser[];
+};
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const cardContainerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 90,
+      damping: 14,
+    },
+  },
 };
 
 export default function UsersWorkspace({ users }: UsersWorkspaceProps) {
@@ -25,8 +71,16 @@ export default function UsersWorkspace({ users }: UsersWorkspaceProps) {
   }
 
   return (
-    <div className="min-h-full space-y-6 bg-lmn-bg-soft px-5 py-6 sm:px-7 lg:px-8">
-      <section className="flex flex-col justify-between gap-4 border-b border-lmn-border pb-5 xl:flex-row xl:items-end">
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="min-h-full space-y-6 bg-lmn-bg-soft px-5 py-6 sm:px-7 lg:px-8"
+    >
+      <motion.section
+        variants={itemVariants}
+        className="flex flex-col justify-between gap-4 border-b border-lmn-border pb-5 xl:flex-row xl:items-end"
+      >
         <div>
           <p className="text-sm font-medium text-lmn-muted">User management</p>
           <h1 className="mt-1 text-2xl font-semibold tracking-tight text-lmn-text">
@@ -37,9 +91,14 @@ export default function UsersWorkspace({ users }: UsersWorkspaceProps) {
             status, and recent accountability activity.
           </p>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <motion.section
+        variants={cardContainerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
+      >
         <SummaryCard label="Total users" value="48,291" icon={Users} />
         <SummaryCard
           label="Active accounts"
@@ -48,14 +107,16 @@ export default function UsersWorkspace({ users }: UsersWorkspaceProps) {
         />
         <SummaryCard label="Devices monitored" value="62,410" icon={Laptop} />
         <SummaryCard label="Review queue" value="18" icon={AlertTriangle} />
-      </section>
+      </motion.section>
 
-      <UsersTable
-        users={users}
-        selectedUserId={selectedUserId}
-        onSelectUser={handleOpenUser}
-      />
-    </div>
+      <motion.div variants={itemVariants}>
+        <UsersTable
+          users={users}
+          selectedUserId={selectedUserId}
+          onSelectUser={handleOpenUser}
+        />
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -69,7 +130,10 @@ function SummaryCard({
   icon: typeof Users;
 }) {
   return (
-    <article className="rounded-2xl border border-lmn-border bg-white p-5">
+    <motion.article
+      variants={cardVariants}
+      className="rounded-2xl border border-lmn-border bg-white p-5"
+    >
       <div className="flex items-center justify-between">
         <p className="text-sm font-medium text-lmn-muted">{label}</p>
         <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-lmn-bg text-lmn-primary">
@@ -80,6 +144,6 @@ function SummaryCard({
       <p className="mt-4 text-2xl font-semibold tracking-tight text-lmn-text">
         {value}
       </p>
-    </article>
+    </motion.article>
   );
 }
