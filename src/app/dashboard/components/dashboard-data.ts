@@ -28,10 +28,22 @@ export const navItems: NavItem[] = [
 ];
 
 export const metrics: Metric[] = [
-  { label: "Active Users", value: "2,418", change: "+12.4%", tone: "purple" },
-  { label: "Alerts Today", value: "128", change: "-8.1%", tone: "amber" },
-  { label: "Partners", value: "764", change: "+6.8%", tone: "green" },
-  { label: "Subscriptions", value: "1,935", change: "+4.2%", tone: "blue" },
+  { label: "Total users", value: "48,291", change: "+12.4%", tone: "purple" },
+  { label: "Active users", value: "31,804", change: "+8.2%", tone: "green" },
+  { label: "Device counts", value: "62,410", change: "+1,240", tone: "blue" },
+  {
+    label: "Trigger events today",
+    value: "1,847",
+    change: "+6.1%",
+    tone: "purple",
+  },
+  {
+    label: "Alerts today",
+    value: "94",
+    change: "-12 vs yesterday",
+    tone: "amber",
+  },
+  { label: "Organization count", value: "312", change: "+3", tone: "green" },
 ];
 
 export const activities: ActivityItem[] = [
